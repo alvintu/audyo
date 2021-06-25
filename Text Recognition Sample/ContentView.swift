@@ -13,7 +13,7 @@ import AVFoundation
 
 struct ContentView: View {
     
-    @State private var recognizedText = "Tap button to start scanning"
+    @State private var recognizedText = "Tap button below to start scanning"
     @State private var showingScanningView = false
     
   func speak(string:String){
@@ -30,11 +30,14 @@ struct ContentView: View {
               Button(action: {
                 speak(string: recognizedText)
               }, label: {
-                Text("Speak")
+                Image(systemName: "mic.circle")
+                  .resizable()
+                  .frame(width: 32.0, height: 32.0)
+
               })
                 ScrollView {
                     ZStack {
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        RoundedRectangle(cornerRadius: 0, style: .continuous)
                             .fill(Color.gray.opacity(0.2))
                         
                         Text(recognizedText)
@@ -47,7 +50,6 @@ struct ContentView: View {
                 Spacer()
                 
                 HStack {
-                    Spacer()
                     
                     Button(action: {
                         self.showingScanningView = true
@@ -59,8 +61,9 @@ struct ContentView: View {
                     .background(Capsule().fill(Color.blue))
                 }
                 .padding()
+              Spacer()
             }
-            .navigationBarTitle("Text Recognition")
+            .navigationBarTitle("Scan & Speak")
             .sheet(isPresented: $showingScanningView) {
                 ScanDocumentView(recognizedText: self.$recognizedText)
             }
